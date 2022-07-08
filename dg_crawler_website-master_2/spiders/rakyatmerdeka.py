@@ -49,8 +49,8 @@ class RakyatmerdekaSpider(BaseSpider):
             else:
                 next_page = response.xpath(
                     '//div[@class="penci-pagination align-left"]/ul/li')[-1]
-                next_page=next_page.xpath(".//a/@href")
-                yield Request(url=next_page.get(), callback=self.parse_page, meta=deepcopy(meta))
+                next_page=next_page.xpath(".//a/@href").get()
+                yield Request(url=next_page, callback=self.parse_page, meta=deepcopy(meta))
     def parse_item(self, response):
         item = NewsItem()
         meta = response.meta
@@ -63,5 +63,5 @@ class RakyatmerdekaSpider(BaseSpider):
                 '//*[@id="penci-post-entry-inner"]')]]
         )
         item['abstract'] = item['body'].split('\n')[0]
-        item['images'] = [response.xpath('//*[@id="main"]/div/article/div[@class="post-image"]/a/@href').get()]
+        item['images'] = [response.xpath('//*[@id="main"]/div//div[@class="post-image"]/a/@href').get()]
         return item
