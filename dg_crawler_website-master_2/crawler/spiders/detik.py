@@ -5,7 +5,7 @@ from scrapy.http.request import Request
 from common import date
 from copy import deepcopy
 
-
+# author:宋宇涛
 class DetikSpider(BaseSpider):
     name = 'detik'
     website_id =126
@@ -46,8 +46,8 @@ class DetikSpider(BaseSpider):
             for article in articles:
                 tt = article.xpath('.//div[@class="media__date"]/span/@title').get().split()[1:-2]
                 pub_time = "{}-{}-{}".format(tt[-1], self.month[tt[1]], tt[0]) + ' 00:00:00'
-                article_url = article.xpath('.//div[@class="media__date"]//a/@href').get()
-                title = article.xpath('.//div[@class="media__date"]//a/text()').get()
+                article_url = article.xpath('.//h3[@class="media__title"]/a/@href').get()
+                title = article.xpath('.//h3[@class="media__title"]/a/text()').get()
                 meta['data']['pub_time'] = pub_time
                 meta['data']['title'] = title
                 yield Request(url=article_url, callback=self.parse_item, meta=deepcopy(meta))
@@ -57,7 +57,7 @@ class DetikSpider(BaseSpider):
         # 翻页
         if flag:
             if response.xpath(
-                    '/html/body/div[4]/div[2]/div[2]/div/div[2]/a[9]') is None:
+                    '/html/body/div[4]/div[2]/div[2]/div/div[2]/a[9]/@href') is None:
                 self.logger.info("到达最后一页")
             else:
                 next_page = response.xpath(

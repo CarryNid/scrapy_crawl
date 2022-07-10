@@ -44,7 +44,7 @@ class EriaSpider(BaseSpider):
             self.logger.info("时间截止")
         # 翻页
         if flag:
-
+            #
             if response.xpath(
                     '//*[@id="main-content"]/div[2]/div/article/div[3]/a[5]').get() is None:
                 self.logger.info("到达最后一页")

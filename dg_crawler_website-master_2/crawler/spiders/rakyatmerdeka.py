@@ -63,5 +63,5 @@ class RakyatmerdekaSpider(BaseSpider):
                 '//*[@id="penci-post-entry-inner"]')]]
         )
         item['abstract'] = item['body'].split('\n')[0]
-        item['images'] = [response.xpath('//*[@id="post-1766"]/div[2]/a/img/@src').get()]
+        item['images'] = [response.xpath('//*[@id="main"]/div/article/div[@class="post-image"]/a/@href').get()]
         return item
